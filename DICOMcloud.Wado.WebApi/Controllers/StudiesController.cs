@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.ModelBinding;
 
 namespace DICOMcloud.Wado.WebApi.Controllers
@@ -33,7 +34,7 @@ namespace DICOMcloud.Wado.WebApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Route("qidors/studies")]
+        //[Route("qidors/studies")]
         [Route("api/studies")]
         [HttpGet]
         public HttpResponseMessage SearchForStudies
@@ -46,16 +47,29 @@ namespace DICOMcloud.Wado.WebApi.Controllers
         }
 
 
-        [HttpGet]
-        [Route("wadors/studies/{StudyInstanceUID}")]
+        //[HttpGet]
+        [HttpPut]
+        //[Route("wadors/studies/{StudyInstanceUID}")]
         [Route("api/studies/{StudyInstanceUID}")]
+        //[Route("studies/index/{StudyInstanceUID}")]
         public HttpResponseMessage GetStudies
+        //(
+        //    [ModelBinder(typeof(RsStudiesRequestModelBinder))]
+        //    IWadoRsStudiesRequest request
+        //)
         (
-            [ModelBinder(typeof(RsStudiesRequestModelBinder))]
-            IWadoRsStudiesRequest request
-        )
+            wado_request r
+            )
         {
+            IWadoRsStudiesRequest request = null;
             return WadoService.RetrieveStudy(request);
+        }
+
+        public class wado_request { 
+        public string includefield { get; set; }
+            public bool fuzzymatching { get; set; }
+            public int offset { get; set; }
+            public int limit { get; set; }
         }
 
         [HttpPost]
