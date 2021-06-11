@@ -12,21 +12,21 @@ namespace DICOMcloud.Wado
     {
         public static void Register(HttpConfiguration config)
         {
-            //string enabled = CloudConfigurationManager.GetSetting("cors:enabled");
+            string enabled = CloudConfigurationManager.GetSetting("cors:enabled");
 
-            //if (bool.TryParse(enabled, out bool isEnabled) && isEnabled)
-            //{
-            //    string origins = CloudConfigurationManager.GetSetting("cors:origins");
-            //    string headers = CloudConfigurationManager.GetSetting("cors:headers");
-            //    string methods = CloudConfigurationManager.GetSetting("cors:methods");
+            if (bool.TryParse(enabled, out bool isEnabled) && isEnabled)
+            {
+                string origins = CloudConfigurationManager.GetSetting("cors:origins");
+                string headers = CloudConfigurationManager.GetSetting("cors:headers");
+                string methods = CloudConfigurationManager.GetSetting("cors:methods");
 
-            //    config.MessageHandlers.Add(new PreflightRequestsHandler(origins, headers, methods));
-            //    config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
-            //}
+                config.MessageHandlers.Add(new PreflightRequestsHandler(origins, headers, methods));
+                config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
+            }
 
-            //// Web API routes
-            //config.MapHttpAttributeRoutes();
-            config.EnableCors();
+            // Web API routes
+            config.MapHttpAttributeRoutes();
+            //config.EnableCors();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

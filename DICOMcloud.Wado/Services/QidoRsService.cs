@@ -69,8 +69,8 @@ namespace DICOMcloud.Wado
             )
             {
                 IQueryOptions queryOptions = GetQueryOptions ( qidoRequest ) ;
-
-                return queryService.FindStudiesPaged ( dicomRequest, queryOptions ) ;
+                var s= queryService.FindStudiesPaged(dicomRequest, queryOptions);
+                return s;
             }  ) ;
         }
 

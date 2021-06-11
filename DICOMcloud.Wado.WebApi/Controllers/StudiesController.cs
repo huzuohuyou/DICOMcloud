@@ -1,12 +1,8 @@
 ﻿using DICOMcloud.Wado.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.ModelBinding;
 
 namespace DICOMcloud.Wado.WebApi.Controllers
@@ -47,21 +43,16 @@ namespace DICOMcloud.Wado.WebApi.Controllers
         }
 
 
-        //[HttpGet]
-        [HttpPut]
+        [HttpGet]
         //[Route("wadors/studies/{StudyInstanceUID}")]
         [Route("api/studies/{StudyInstanceUID}")]
         //[Route("studies/index/{StudyInstanceUID}")]
         public HttpResponseMessage GetStudies
-        //(
-        //    [ModelBinder(typeof(RsStudiesRequestModelBinder))]
-        //    IWadoRsStudiesRequest request
-        //)
         (
-            wado_request r
-            )
+            [ModelBinder(typeof(RsStudiesRequestModelBinder))]
+            IWadoRsStudiesRequest request
+        )
         {
-            IWadoRsStudiesRequest request = null;
             return WadoService.RetrieveStudy(request);
         }
 
@@ -74,7 +65,7 @@ namespace DICOMcloud.Wado.WebApi.Controllers
 
         [HttpPost]
         [Route("stowrs/studies/{studyInstanceUID}")]
-        [Route("stowrs")]
+        //[Route("stowrs")]404
         [Route("api/studies/{studyInstanceUID}")]
         [Route("api/studies/")]
         public async Task<HttpResponseMessage> Post(string studyInstanceUID = null)
@@ -89,7 +80,7 @@ namespace DICOMcloud.Wado.WebApi.Controllers
             }
 
             if (!Request.Content.IsMimeMultipartContent("related"))
-            {
+            {//multipart/related; boundary="_boundary_by_mere"
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
