@@ -104,7 +104,10 @@ namespace DICOMcloud.IO
         {
             File.Delete ( ID ) ;
         }
-
+        /// <summary>
+        /// 读取服务
+        /// </summary>
+        /// <returns></returns>
         public Stream GetReadStream()
         {
             return File.OpenRead ( ID ) ;

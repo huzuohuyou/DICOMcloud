@@ -97,7 +97,10 @@ namespace DICOMcloud.IO
         {
             return _location != null ;
         }
-
+        /// <summary>
+        /// 缓存dcm
+        /// </summary>
+        /// <returns></returns>
         public Stream GetReadStream ( )
         {
             //throws exception http://stackoverflow.com/questions/1646193/why-does-memorystream-getbuffer-always-throw
